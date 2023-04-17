@@ -1,7 +1,7 @@
 import { UsersDomain } from '../domain/users-domain';
 import { UsersRepository } from '../domain/users.repository';
+import { UsersEntity } from './entities/users';
 import { UsersGetAllDTO } from './users-getAll.dto';
-import { UsersEntity } from './users.entity';
 
 export class UsersInfraestructure implements UsersRepository {
 	insert(user: UsersDomain): void {

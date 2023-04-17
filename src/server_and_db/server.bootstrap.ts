@@ -1,10 +1,7 @@
 import { Application } from 'express';
 import http from 'http';
-import { AppService } from 'src/backend/app.service';
-import yenv from 'yenv';
+import { AppService } from '../backend/app.service';
 import IBootstrap from './interface.bootstrap';
-
-const env = yenv();
 
 export default class ServerBootstrap implements IBootstrap {
 	constructor(private readonly app: Application) {}

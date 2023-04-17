@@ -1,5 +1,5 @@
 import { UsersDomain } from '../domain/users-domain';
-import { UsersEntity } from './users.entity';
+import { UsersEntity } from './entities/users';
 
 export class UsersGetAllDTO {
 	static fromDataToDomain(data: UsersEntity[]): UsersDomain[] {

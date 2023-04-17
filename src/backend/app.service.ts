@@ -22,9 +22,9 @@ export class AppService {
 		return {
 			host: this.env.DB_HOST,
 			port: this.env.DB_PORT,
-			entities: this.env.DB_ENTITIES,
+			entities: [this.env.DB_ENTITIES],
 			username: this.env.DB_USER,
-			password: this.env.DB_PASS,
+			password: '' + this.env.DB_PASS,
 			database: this.env.DB_NAME,
 			synchronization: this.env.DB_SYNC,
 			logging: this.env.DB_LOGG,

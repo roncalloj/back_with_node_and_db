@@ -1,11 +1,11 @@
 import { DataSource } from 'typeorm';
 
-import { AppService, IDBConfig } from 'src/backend/app.service';
+import { AppService, IDBConfig } from '../backend/app.service';
 import IBootstrap from './interface.bootstrap';
 
-let appDataSource: DataSource;
+export default class DataBaseBootstrap implements IBootstrap {
+	private static appDataSource: DataSource;
 
-export default class implements IBootstrap {
 	initialize(): Promise<any> {
 		const dbConfig: IDBConfig = AppService.DB_CONFIG;
 
@@ -16,10 +16,15 @@ export default class implements IBootstrap {
 			subscribers: [],
 		});
 
-		appDataSource = AppDataSource;
+		DataBaseBootstrap.appDataSource = AppDataSource;
 		return AppDataSource.initialize();
 	}
+
 	close(): void {
-		appDataSource.destroy();
+		DataBaseBootstrap.appDataSource?.destroy();
+	}
+
+	static get dataSource(): DataSource {
+		return DataBaseBootstrap.appDataSource;
 	}
 }

@@ -1,10 +1,19 @@
 import app from './app';
+import DataBaseBootstrap from './db.bootstrap';
 import ServerBootstrap from './server.bootstrap';
 
-try {
+(async () => {
 	const server = new ServerBootstrap(app);
-	server.initialize();
-} catch (error) {
-	console.error(error);
-	process.exit(1);
-}
+	const database = new DataBaseBootstrap();
+
+	try {
+		const listPromises = [server.initialize(), database.initialize()];
+		await Promise.all(listPromises);
+
+		console.log('DB is running');
+	} catch (error) {
+		console.error(error);
+		database.close();
+		server.close();
+	}
+})();
