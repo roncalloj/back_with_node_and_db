@@ -1,1 +1,1 @@
-# personal project to enhace skills in backend with node, andwith a DB (mySQL)
+# Personal project to enhance skills in backend with node, and with a DB (mySQL)
