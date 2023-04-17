@@ -1,5 +1,6 @@
 import { Application } from 'express';
 import http from 'http';
+import { AppService } from 'src/backend/app.service';
 import yenv from 'yenv';
 import IBootstrap from './interface.bootstrap';
 
@@ -13,10 +14,10 @@ export default class ServerBootstrap implements IBootstrap {
 			const server = http.createServer(this.app);
 
 			server
-				.listen(env.BACKEND_PORT)
+				.listen(AppService.PORT)
 				.on('listening', () => {
-					console.log(`Server listening on port ${env.BACKEND_PORT}`);
-					resolve(`Server listening on port ${env.BACKEND_PORT}`);
+					console.log(`Server listening on port ${AppService.PORT}`);
+					resolve(`Server listening on port ${AppService.PORT}`);
 				})
 				.on('error', (err: any) => {
 					reject(err);
@@ -24,5 +25,8 @@ export default class ServerBootstrap implements IBootstrap {
 					process.exit(1);
 				});
 		});
+	}
+	close(): void {
+		process.exit(1);
 	}
 }
