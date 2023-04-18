@@ -7,7 +7,7 @@ export interface IDBConfig {
 	username: string;
 	password: string;
 	database: string;
-	synchronization: string;
+	synchronization: boolean;
 	logging: boolean;
 }
 

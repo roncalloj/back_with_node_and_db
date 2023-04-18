@@ -1,6 +1,6 @@
 import { Application } from 'express';
 import http from 'http';
-import { AppService } from '../backend/app.service';
+import { AppService } from '../backend/core/app.service';
 import IBootstrap from './interface.bootstrap';
 
 export default class ServerBootstrap implements IBootstrap {

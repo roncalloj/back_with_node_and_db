@@ -14,11 +14,11 @@ services:
     networks:
       - net-dev
     volumes:
-      - data-mysqs-nodeproject-vol:/var/lib/mysql
+      - data-mysql-nodeproject-vol:/var/lib/mysql
 
 networks:
   net-dev:
     driver: bridge
 
 volumes:
-  data-mysqs-nodeproject-vol:
+  data-mysql-nodeproject-vol:
