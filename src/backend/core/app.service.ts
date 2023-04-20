@@ -7,7 +7,7 @@ export interface IDBConfig {
 	username: string;
 	password: string;
 	database: string;
-	synchronization: boolean;
+	synchronize: boolean;
 	logging: boolean;
 }
 
@@ -26,7 +26,7 @@ export class AppService {
 			username: this.env.DB_USER,
 			password: '' + this.env.DB_PASS,
 			database: this.env.DB_NAME,
-			synchronization: this.env.DB_SYNC,
+			synchronize: this.env.DB_SYNC,
 			logging: this.env.DB_LOGG,
 		};
 	}

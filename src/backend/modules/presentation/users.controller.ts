@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { UsersApplication } from '../application/users.application';
 import { UsersRepository } from '../domain/users.repository';
-import { UsersInfraestructure } from '../infraestructure/users.infraestructure';
+import { UsersInfrastructure } from '../infrastructure/users.infrastructure';
 
-const usersInfraestructure: UsersRepository = new UsersInfraestructure();
+const usersInfrastructure: UsersRepository = new UsersInfrastructure();
 const usersApplication: UsersApplication = new UsersApplication(
-	usersInfraestructure
+	usersInfrastructure
 );
 
 class UserController {

@@ -3,7 +3,7 @@ import { UsersRepository } from '../domain/users.repository';
 import { UsersEntity } from './entities/users';
 import { UsersGetAllDTO } from './users-getAll.dto';
 
-export class UsersInfraestructure implements UsersRepository {
+export class UsersInfrastructure implements UsersRepository {
 	insert(user: UsersDomain): void {
 		throw new Error('Method not implemented.');
 	}
