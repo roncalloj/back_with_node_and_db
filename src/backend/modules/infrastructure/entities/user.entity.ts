@@ -19,7 +19,7 @@ export class UsersEntity extends BaseEntity {
 	@Column('varchar', { length: 150 })
 	password: string;
 
-	@Column('boolean', { default: true })
+	@Column('boolean')
 	active: boolean;
 
 	@ManyToMany(() => RoleEntity, (role) => role.users)

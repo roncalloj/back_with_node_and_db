@@ -18,5 +18,7 @@
 		"editor.suggest.insertMode": "replace"
 	},
 	"window.zoomLevel": -1,
-	"editor.tabSize": 3
+	"editor.tabSize": 3,
+	"editor.fontLigatures": true,
+	"editor.fontFamily": "'Cascadia Code'"
 }
