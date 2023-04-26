@@ -3,17 +3,13 @@ import { UsersDomain } from '../domain/users-domain';
 import { UsersRepository } from '../domain/users.repository';
 import { UsersEntity } from './entities/user.entity';
 import { UsersGetAllDTO } from './users-getAll.dto';
+import { UsersModelDTO } from './users-model.dto';
 
 export class UsersInfrastructure implements UsersRepository {
-	insert(user: UsersDomain): void {
+	async insert(user: UsersDomain) {
 		const repository = DataBaseBootstrap.dataSource.getRepository(UsersEntity);
+		const userEntity = UsersModelDTO.fromDomainToData(user);
+		await repository.save(userEntity);
 	}
-	getAll(): UsersDomain[] {
-		const results = [
-			new UsersEntity('Jhon Smith', 'john@email.com', '123456'),
-			new UsersEntity('Sam Smith', 'sam@email.com', '123456'),
-			new UsersEntity('Mary Smith', 'mary@email.com', '123456'),
-		];
-		return UsersGetAllDTO.fromDataToDomain(results);
-	}
+	getAll(): any {}
 }

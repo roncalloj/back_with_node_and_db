@@ -2,7 +2,7 @@ import { UsersDomain, UsersProperties } from '../domain/users-domain';
 import { UsersEntity } from './entities/user.entity';
 
 export class UsersModelDTO {
-	fromDomainToData(user: UsersDomain): UsersEntity {
+	static fromDomainToData(user: UsersDomain): UsersEntity {
 		const userProperties: UsersProperties =
 			user.properties as unknown as UsersProperties;
 		const userEntity = new UsersEntity();
