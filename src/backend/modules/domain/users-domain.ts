@@ -4,6 +4,7 @@ export interface UserEssentials {
 	readonly lastname: string;
 	readonly email: string;
 	readonly password: string;
+	readonly roles: string[];
 }
 
 export interface UserOptionals {
@@ -21,6 +22,7 @@ export class UsersDomain {
 	private lastname: string;
 	private email: string;
 	private password: string;
+	private roles: string[];
 	private active: boolean;
 	private readonly created_at: Date;
 	private updated_at: Date | null;
@@ -28,6 +30,7 @@ export class UsersDomain {
 
 	constructor(properties: UsersProperties) {
 		this.active = true;
+		this.created_at = new Date();
 		Object.assign(this, properties);
 	}
 
@@ -38,6 +41,7 @@ export class UsersDomain {
 			lastname: this.lastname,
 			email: this.email,
 			password: this.password,
+			roles: this.roles,
 			active: this.active,
 			created_at: this.created_at,
 			updated_at: this.updated_at,

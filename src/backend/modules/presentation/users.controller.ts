@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { UsersApplication } from '../application/users.application';
+import { UsersFactory } from '../domain/users.factory';
 import { UsersRepository } from '../domain/users.repository';
 import { UsersInfrastructure } from '../infrastructure/users.infrastructure';
 
@@ -18,11 +19,18 @@ class UserController {
 
 	constructor() {
 		this.getAll = this.getAll.bind(this);
+		this.insert = this.insert.bind(this);
+	}
+	async insert(request: Request, response: Response) {
+		const { name, lastname, email, password } = request.body;
+		const userToInsert = UsersFactory.create(name, lastname, email, password);
+		await usersApplication.insert(userToInsert);
+
+		response.status(201).json({ message: 'User created' });
 	}
 
 	getAll(request: Request, response: Response) {
 		response.json(usersApplication.getAll());
-		// response.send('Response to GET from /users');
 	}
 }
 

@@ -1,8 +1,7 @@
-import DataBaseBootstrap from 'src/server_and_db/db.bootstrap';
+import DataBaseBootstrap from '../../../server_and_db/db.bootstrap';
 import { UsersDomain } from '../domain/users-domain';
 import { UsersRepository } from '../domain/users.repository';
 import { UsersEntity } from './entities/user.entity';
-import { UsersGetAllDTO } from './users-getAll.dto';
 import { UsersModelDTO } from './users-model.dto';
 
 export class UsersInfrastructure implements UsersRepository {

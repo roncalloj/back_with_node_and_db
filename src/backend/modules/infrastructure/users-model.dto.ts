@@ -3,8 +3,7 @@ import { UsersEntity } from './entities/user.entity';
 
 export class UsersModelDTO {
 	static fromDomainToData(user: UsersDomain): UsersEntity {
-		const userProperties: UsersProperties =
-			user.properties as unknown as UsersProperties;
+		const userProperties: UsersProperties = user.properties();
 		const userEntity = new UsersEntity();
 		userEntity.id = userProperties.id;
 		userEntity.name = userProperties.name;

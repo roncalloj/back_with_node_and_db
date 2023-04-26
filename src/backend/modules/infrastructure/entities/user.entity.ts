@@ -13,7 +13,7 @@ export class UsersEntity extends BaseEntity {
 	@Column('varchar', { length: 100 })
 	lastname: string;
 
-	@Column('varchar', { length: 100 })
+	@Column('varchar', { length: 100, unique: true })
 	email: string;
 
 	@Column('varchar', { length: 150 })

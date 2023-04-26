@@ -27,6 +27,7 @@ export class UsersFactory {
 			lastname,
 			email,
 			password,
+			roles: [],
 		};
 
 		return new UsersDomain(properties);
