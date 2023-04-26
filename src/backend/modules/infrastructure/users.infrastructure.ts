@@ -1,11 +1,12 @@
+import DataBaseBootstrap from 'src/server_and_db/db.bootstrap';
 import { UsersDomain } from '../domain/users-domain';
 import { UsersRepository } from '../domain/users.repository';
-import { UsersEntity } from './entities/users';
+import { UsersEntity } from './entities/user.entity';
 import { UsersGetAllDTO } from './users-getAll.dto';
 
 export class UsersInfrastructure implements UsersRepository {
 	insert(user: UsersDomain): void {
-		throw new Error('Method not implemented.');
+		const repository = DataBaseBootstrap.dataSource.getRepository(UsersEntity);
 	}
 	getAll(): UsersDomain[] {
 		const results = [
