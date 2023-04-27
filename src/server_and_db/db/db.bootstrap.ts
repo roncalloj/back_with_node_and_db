@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { AppService, IDBConfig } from '../../backend/core/app.service';
+import { AppService, IDBConfig } from './app.service';
 import IBootstrap from './interface.bootstrap';
 
 export default class DataBaseBootstrap implements IBootstrap {

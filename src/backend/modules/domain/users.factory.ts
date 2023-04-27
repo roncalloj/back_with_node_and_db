@@ -1,35 +1,42 @@
+import { Result, err, ok } from 'neverthrow';
 import { v4 as uuidv4 } from 'uuid';
+import { InvalidEmailException } from './domains.exceptions';
+import { EmailVO } from './domains.vo';
 import { UsersDomain, UsersProperties } from './users-domain';
 
-export class UsersFactory {
-	static readonly patternEmail =
-		/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+export type UsersResult = Result<UsersDomain, InvalidEmailException | Error>;
 
+export class UsersFactory {
 	static create(
 		name: string,
 		lastname: string,
 		email: string,
 		password: string
-	): UsersDomain {
+	): UsersResult {
 		if (name.length < 3) {
-			throw new Error('Name must be at least 3 characters');
+			return err(new Error('Name must be at least 3 characters'));
 		}
 		if (password.length < 6) {
-			throw new Error('Password must be at least 6 characters');
+			return err(new Error('Password must be at least 6 characters'));
 		}
-		if (!this.patternEmail.test(email)) {
-			throw new Error('Email is not valid');
+		if (email.trim().length === 0) {
+			return err(new Error('Email is required'));
+		}
+		const emailResult = EmailVO.create(email);
+
+		if (emailResult.isErr()) {
+			return err(emailResult.error);
 		}
 
 		const properties: UsersProperties = {
 			id: uuidv4(),
 			name,
 			lastname,
-			email,
+			email: emailResult.value.getValue(),
 			password,
 			roles: [],
 		};
 
-		return new UsersDomain(properties);
+		return ok(new UsersDomain(properties));
 	}
 }

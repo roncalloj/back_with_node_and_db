@@ -1,4 +1,5 @@
 import { UsersInsertResultApp } from '../application/users-insert.result';
+import { UsersListResultApp } from '../application/users-list.result';
 import { UsersDomain, UsersProperties } from '../domain/users-domain';
 import { UsersEntity } from './entities/user.entity';
 
@@ -25,5 +26,17 @@ export class UsersModelDTO {
 			lastname: userEntity.lastname,
 			email: userEntity.email,
 		};
+	}
+
+	static fromDataToApplicationList(
+		userEntities: UsersEntity[]
+	): UsersListResultApp[] {
+		return userEntities.map((users) => {
+			return {
+				id: users.id,
+				name: users.name,
+				lastname: users.lastname,
+			};
+		});
 	}
 }

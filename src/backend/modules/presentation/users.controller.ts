@@ -3,12 +3,9 @@ import {
 	UsersApplication,
 	UsersInsertResultApplication,
 } from '../application/users.application';
-import { UsersFactory } from '../domain/users.factory';
+import { UsersFactory, UsersResult } from '../domain/users.factory';
 import { UsersRepository } from '../domain/users.repository';
-import {
-	UsersInfrastructure,
-	UsersInsertResult,
-} from '../infrastructure/users.infrastructure';
+import { UsersInfrastructure } from '../infrastructure/users.infrastructure';
 
 const usersInfrastructure: UsersRepository = new UsersInfrastructure();
 const usersApplication: UsersApplication = new UsersApplication(
@@ -29,22 +26,43 @@ class UserController {
 	}
 	async insert(request: Request, response: Response) {
 		const { name, lastname, email, password } = request.body;
-		const userToInsert = UsersFactory.create(name, lastname, email, password);
-		const userResult: UsersInsertResultApplication =
-			await usersApplication.insert(userToInsert);
+		const userResult: UsersResult = UsersFactory.create(
+			name,
+			lastname,
+			email,
+			password
+		);
 
 		if (userResult.isErr()) {
-			return response.status(userResult.error.status).json({
+			return response.status(400).json({
 				name: userResult.error.name,
 				message: userResult.error.message,
 			});
 		}
-		const userCreated = userResult.value;
+
+		const userInsertResult: UsersInsertResultApplication =
+			await usersApplication.insert(userResult.value);
+
+		if (userInsertResult.isErr()) {
+			return response.status(userInsertResult.error.status).json({
+				name: userInsertResult.error.name,
+				message: userInsertResult.error.message,
+			});
+		}
+		const userCreated = userInsertResult.value;
 		response.status(201).json({ message: 'User created', userCreated });
 	}
 
-	getAll(request: Request, response: Response) {
-		response.json(usersApplication.getAll());
+	async getAll(request: Request, response: Response) {
+		const userResult = await usersApplication.getAll();
+
+		if (userResult.isErr()) {
+			return response.status(userResult.error.starus).json({
+				name: userResult.error.name,
+				message: userResult.error.message,
+			});
+		}
+		response.json(userResult.value);
 	}
 }
 

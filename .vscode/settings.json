@@ -1,5 +1,9 @@
 {
 	"workbench.iconTheme": "vscode-icons",
+	"workbench.colorCustomizations": {
+		"tab.activeBorderTop": "#ce5f04",
+		"tab.activeBackground": "#ffffff0e"
+	},
 	"editor.formatOnSave": true,
 	"prettier.endOfLine": "auto",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
