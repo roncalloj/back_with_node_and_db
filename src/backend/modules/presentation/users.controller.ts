@@ -1,8 +1,14 @@
 import { Request, Response } from 'express';
-import { UsersApplication } from '../application/users.application';
+import {
+	UsersApplication,
+	UsersInsertResultApplication,
+} from '../application/users.application';
 import { UsersFactory } from '../domain/users.factory';
 import { UsersRepository } from '../domain/users.repository';
-import { UsersInfrastructure } from '../infrastructure/users.infrastructure';
+import {
+	UsersInfrastructure,
+	UsersInsertResult,
+} from '../infrastructure/users.infrastructure';
 
 const usersInfrastructure: UsersRepository = new UsersInfrastructure();
 const usersApplication: UsersApplication = new UsersApplication(
@@ -24,9 +30,17 @@ class UserController {
 	async insert(request: Request, response: Response) {
 		const { name, lastname, email, password } = request.body;
 		const userToInsert = UsersFactory.create(name, lastname, email, password);
-		await usersApplication.insert(userToInsert);
+		const userResult: UsersInsertResultApplication =
+			await usersApplication.insert(userToInsert);
 
-		response.status(201).json({ message: 'User created' });
+		if (userResult.isErr()) {
+			return response.status(userResult.error.status).json({
+				name: userResult.error.name,
+				message: userResult.error.message,
+			});
+		}
+		const userCreated = userResult.value;
+		response.status(201).json({ message: 'User created', userCreated });
 	}
 
 	getAll(request: Request, response: Response) {

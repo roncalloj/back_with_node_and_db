@@ -1,3 +1,4 @@
+import { UsersInsertResultApp } from '../application/users-insert.result';
 import { UsersDomain, UsersProperties } from '../domain/users-domain';
 import { UsersEntity } from './entities/user.entity';
 
@@ -15,5 +16,14 @@ export class UsersModelDTO {
 		userEntity.updated_at = userProperties.updated_at;
 		userEntity.deleted_at = userProperties.deleted_at;
 		return userEntity;
+	}
+
+	static fromDataToApplication(userEntity: UsersEntity): UsersInsertResultApp {
+		return {
+			id: userEntity.id,
+			name: userEntity.name,
+			lastname: userEntity.lastname,
+			email: userEntity.email,
+		};
 	}
 }
