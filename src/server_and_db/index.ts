@@ -1,6 +1,6 @@
 import app from './app';
-import DataBaseBootstrap from './db.bootstrap';
-import ServerBootstrap from './server.bootstrap';
+import DataBaseBootstrap from './db/db.bootstrap';
+import ServerBootstrap from './db/server.bootstrap';
 
 (async () => {
 	const server = new ServerBootstrap(app);
