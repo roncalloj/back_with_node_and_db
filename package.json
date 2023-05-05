@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "nodemon src/server_and_db/index.ts",
+		"dev": "nodemon backend/server_and_db/server.ts",
 		"build": "ts-node",
 		"trans": "tsc"
 	},
