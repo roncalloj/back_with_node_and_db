@@ -101,5 +101,5 @@
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
 	"exclude": ["node_modules", "transpiledJS"],
-	"include": ["backend/back/**/*.ts", "backend/server_and_db/**/*.ts"]
+	"include": ["./**/*.ts", "./server_and_db/**/*.ts"]
 }
