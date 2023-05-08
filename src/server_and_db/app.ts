@@ -1,6 +1,8 @@
 import cors from 'cors';
 import express from 'express';
-import RouterUsers from '../modules/presentation/users.routes';
+import { RouterUsers } from '../modules/presentation/users.routes';
+
+const routerUsers: RouterUsers = new RouterUsers();
 
 class App {
 	app: express.Application;
@@ -17,7 +19,7 @@ class App {
 	}
 
 	mountRoutes(): void {
-		this.app.use('/users', RouterUsers);
+		this.app.use('/user', routerUsers.router);
 
 		this.app.get('/products', (request, response) => {
 			const product = [

@@ -1,7 +1,7 @@
 import express from 'express';
 import UserController from './users.controller';
 
-class Router {
+export class RouterUsers {
 	router: express.Router;
 	controller: UserController;
 
@@ -12,9 +12,7 @@ class Router {
 	}
 
 	mountRoutes(): void {
-		this.router.get('/', this.controller.getAll);
+		this.router.get('/users', this.controller.getAll);
 		this.router.post('/signup', this.controller.insert);
 	}
 }
-
-export default new Router().router;
