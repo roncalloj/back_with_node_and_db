@@ -1,6 +1,10 @@
 import { UsersInsertResultApp } from '../application/users-insert.result';
-import { UsersListResultApp } from '../application/users-list.result';
+import {
+	UserOneResultApp,
+	UsersListResultApp,
+} from '../application/users.results';
 import { UsersDomain, UsersProperties } from '../domain/users-domain';
+import { RoleEntity } from './entities/role.entity';
 import { UsersEntity } from './entities/user.entity';
 
 export class UsersModelDTO {
@@ -13,6 +17,7 @@ export class UsersModelDTO {
 		userEntity.email = userProperties.email;
 		userEntity.password = userProperties.password;
 		userEntity.active = userProperties.active;
+		userEntity.roles = userProperties.roles as RoleEntity[];
 		userEntity.created_at = userProperties.created_at;
 		userEntity.updated_at = userProperties.updated_at;
 		userEntity.deleted_at = userProperties.deleted_at;
@@ -38,5 +43,18 @@ export class UsersModelDTO {
 				lastname: users.lastname,
 			};
 		});
+	}
+
+	static fromDataToApplicationOne(userEntity: UsersEntity): UserOneResultApp {
+		return {
+			id: userEntity.id,
+			name: userEntity.name,
+			lastname: userEntity.lastname,
+			email: userEntity.email,
+			roles: userEntity.roles.map((role) => ({
+				id: role.id,
+				roleName: role.name,
+			})),
+		};
 	}
 }

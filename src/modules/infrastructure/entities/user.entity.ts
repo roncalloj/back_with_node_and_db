@@ -22,7 +22,7 @@ export class UsersEntity extends BaseEntity {
 	@Column('boolean')
 	active: boolean;
 
-	@ManyToMany(() => RoleEntity, (role) => role.users)
+	@ManyToMany(() => RoleEntity, (role) => role.users, { eager: true })
 	@JoinTable()
 	roles: RoleEntity[];
 }

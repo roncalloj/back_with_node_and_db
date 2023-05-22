@@ -2,12 +2,19 @@ import { Result, err, ok } from 'neverthrow';
 
 import DataBaseBootstrap from '../../server_and_db/db/db.bootstrap';
 import { UsersInsertResultApp } from '../application/users-insert.result';
-import { UsersListResultApp } from '../application/users-list.result';
+import {
+	UserOneResultApp,
+	UsersListResultApp,
+} from '../application/users.results';
 import { UsersDomain } from '../domain/users-domain';
 import { UsersRepository } from '../domain/users.repository';
 import { UsersEntity } from './entities/user.entity';
 import { UsersModelDTO } from './users-model.dto';
-import { UserInsertException, UserListException } from './users.exceptions';
+import {
+	UserInsertException,
+	UserListException,
+	UserOneException,
+} from './users.exceptions';
 
 export type UsersInsertResult = Result<
 	UsersInsertResultApp,
@@ -15,6 +22,7 @@ export type UsersInsertResult = Result<
 >;
 
 export type UserListResult = Result<UsersListResultApp[], UserListException>;
+export type UserOneResult = Result<UserOneResultApp, UserOneException>;
 
 export class UsersInfrastructure implements UsersRepository {
 	async insert(user: UsersDomain): Promise<UsersInsertResult> {
@@ -38,6 +46,19 @@ export class UsersInfrastructure implements UsersRepository {
 			return ok(UsersModelDTO.fromDataToApplicationList(users));
 		} catch (error) {
 			return err(new UserListException(error.message));
+		}
+	}
+
+	async getOne(id: string): Promise<UserOneResult> {
+		try {
+			const repository =
+				DataBaseBootstrap.dataSource.getRepository(UsersEntity);
+			const users: UsersEntity = await repository.findOne({
+				where: { active: true, id },
+			});
+			return ok(UsersModelDTO.fromDataToApplicationOne(users));
+		} catch (error) {
+			return err(new UserOneException(error.message));
 		}
 	}
 }

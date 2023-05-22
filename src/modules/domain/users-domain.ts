@@ -4,7 +4,7 @@ export interface UserEssentials {
 	readonly lastname: string;
 	readonly email: string;
 	readonly password: string;
-	readonly roles: string[];
+	readonly roles: number[] | unknown[];
 }
 
 export interface UserOptionals {
@@ -17,16 +17,16 @@ export interface UserOptionals {
 export type UsersProperties = Required<UserEssentials> & Partial<UserOptionals>;
 
 export class UsersDomain {
-	private readonly id: string;
-	private name: string;
-	private lastname: string;
-	private email: string;
-	private password: string;
-	private roles: string[];
-	private active: boolean;
-	private readonly created_at: Date;
-	private updated_at: Date | null;
-	private deleted_at: Date | null;
+	readonly id: string;
+	name: string;
+	lastname: string;
+	email: string;
+	password: string;
+	roles: number[] | unknown[];
+	active: boolean;
+	readonly created_at: Date;
+	updated_at: Date | null;
+	deleted_at: Date | null;
 
 	constructor(properties: UsersProperties) {
 		this.active = true;

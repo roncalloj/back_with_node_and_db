@@ -11,7 +11,8 @@ export class UsersFactory {
 		name: string,
 		lastname: string,
 		email: string,
-		password: string
+		password: string,
+		roles: number[]
 	): UsersResult {
 		if (name.length < 3) {
 			return err(new Error('Name must be at least 3 characters'));
@@ -19,13 +20,22 @@ export class UsersFactory {
 		if (password.length < 6) {
 			return err(new Error('Password must be at least 6 characters'));
 		}
+
 		if (email.trim().length === 0) {
 			return err(new Error('Email is required'));
 		}
 		const emailResult = EmailVO.create(email);
-
 		if (emailResult.isErr()) {
 			return err(emailResult.error);
+		}
+
+		if (roles.length === 0) {
+			return err(new Error('No roles specified'));
+		}
+		for (const role of roles) {
+			if (role < 1) {
+				return err(new Error('Invalid role'));
+			}
 		}
 
 		const properties: UsersProperties = {
@@ -34,7 +44,7 @@ export class UsersFactory {
 			lastname,
 			email: emailResult.value.getValue(),
 			password,
-			roles: [],
+			roles,
 		};
 
 		return ok(new UsersDomain(properties));

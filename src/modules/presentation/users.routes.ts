@@ -14,5 +14,6 @@ export class RouterUsers {
 	mountRoutes(): void {
 		this.router.get('/users', this.controller.getAll);
 		this.router.post('/signup', this.controller.insert);
+		this.router.get('/:idUser', this.controller.getOne)
 	}
 }

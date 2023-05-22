@@ -3,13 +3,17 @@ import {
 	UsersApplication,
 	UsersInsertResultApplication,
 } from '../application/users.application';
+import { RoleRepository } from '../domain/role.repository';
 import { UsersFactory, UsersResult } from '../domain/users.factory';
 import { UsersRepository } from '../domain/users.repository';
+import { RoleInfrastructure } from '../infrastructure/role.infrastructure';
 import { UsersInfrastructure } from '../infrastructure/users.infrastructure';
 
 const usersInfrastructure: UsersRepository = new UsersInfrastructure();
+const roleInfrastructure: RoleRepository = new RoleInfrastructure();
 const usersApplication: UsersApplication = new UsersApplication(
-	usersInfrastructure
+	usersInfrastructure,
+	roleInfrastructure
 );
 
 class UserController {
@@ -21,17 +25,19 @@ class UserController {
 	}
 
 	constructor() {
-		this.getAll = this.getAll.bind(this);
 		this.insert = this.insert.bind(this);
+		this.getAll = this.getAll.bind(this);
+		this.getOne = this.getOne.bind(this);
 	}
 	async insert(request: Request, response: Response) {
 		console.log(request.body);
-		const { name, lastname, email, password } = request.body;
+		const { name, lastname, email, password, roles } = request.body;
 		const userResult: UsersResult = UsersFactory.create(
 			name,
 			lastname,
 			email,
-			password
+			password,
+			roles
 		);
 
 		if (userResult.isErr()) {
@@ -56,6 +62,19 @@ class UserController {
 
 	async getAll(request: Request, response: Response) {
 		const userResult = await usersApplication.getAll();
+
+		if (userResult.isErr()) {
+			return response.status(userResult.error.starus).json({
+				name: userResult.error.name,
+				message: userResult.error.message,
+			});
+		}
+		response.json(userResult.value);
+	}
+
+	async getOne(request: Request, response: Response) {
+		const { idUser } = request.params;
+		const userResult = await usersApplication.getOne(idUser);
 
 		if (userResult.isErr()) {
 			return response.status(userResult.error.starus).json({
