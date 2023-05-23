@@ -4,6 +4,7 @@ import {
 	UsersInsertResultApplication,
 } from '../application/users.application';
 import { RoleRepository } from '../domain/role.repository';
+import { UserUpdateProperties } from '../domain/users-domain';
 import { UsersFactory, UsersResult } from '../domain/users.factory';
 import { UsersRepository } from '../domain/users.repository';
 import { RoleInfrastructure } from '../infrastructure/role.infrastructure';
@@ -28,6 +29,7 @@ class UserController {
 		this.insert = this.insert.bind(this);
 		this.getAll = this.getAll.bind(this);
 		this.getOne = this.getOne.bind(this);
+		this.update = this.update.bind(this);
 	}
 	async insert(request: Request, response: Response) {
 		console.log(request.body);
@@ -83,6 +85,33 @@ class UserController {
 			});
 		}
 		response.json(userResult.value);
+	}
+
+	async update(request: Request, response: Response) {
+		const { idUser } = request.params;
+		console.log(request.body);
+		const body: Partial<UserUpdateProperties> = request.body;
+
+		const userFound = await usersApplication.getOneWithPsswd(idUser);
+		if (userFound.isErr()) {
+			return response.status(userFound.error.status).json({
+				name: userFound.error.name,
+				message: userFound.error.message,
+			});
+		}
+
+		const userUpdateResult = await usersApplication.update(
+			userFound.value,
+			body
+		);
+		if (userUpdateResult.isErr()) {
+			return response.status(userUpdateResult.error.status).json({
+				name: userUpdateResult.error.name,
+				message: userUpdateResult.error.message,
+			});
+		}
+
+		response.status(201).json({ message: 'User updated' });
 	}
 }
 

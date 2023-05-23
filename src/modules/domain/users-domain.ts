@@ -16,6 +16,13 @@ export interface UserOptionals {
 
 export type UsersProperties = Required<UserEssentials> & Partial<UserOptionals>;
 
+export type UserUpdateProperties = {
+	readonly name: string;
+	readonly lastname: string;
+	password: string;
+	roles: number[] | unknown[];
+};
+
 export class UsersDomain {
 	readonly id: string;
 	name: string;
@@ -49,7 +56,7 @@ export class UsersDomain {
 		};
 	}
 
-	update(properties: Partial<UsersProperties>): void {
+	update(properties: Partial<UserUpdateProperties>): void {
 		Object.assign(this, properties);
 		this.updated_at = new Date();
 	}

@@ -33,3 +33,15 @@ export class UserOneException extends Error {
 		return `An error occurred while getting the user: ${message}`;
 	}
 }
+
+export class UserUpdateException extends Error {
+	status: number = 500;
+	constructor(message: string) {
+		super(UserUpdateException.getMessage(message));
+		this.name = 'UserUpdateException';
+	}
+
+	static getMessage(message: string) {
+		return `An error occurred while updating the user: ${message}`;
+	}
+}

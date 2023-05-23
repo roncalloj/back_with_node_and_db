@@ -57,4 +57,20 @@ export class UsersModelDTO {
 			})),
 		};
 	}
+
+	static fromDataToDomain(userEntity: UsersEntity): UsersDomain {
+		const properties: UsersProperties = {
+			id: userEntity.id,
+			name: userEntity.name,
+			lastname: userEntity.lastname,
+			email: userEntity.email,
+			password: userEntity.password,
+			roles: userEntity.roles,
+			active: userEntity.active,
+			created_at: userEntity.created_at,
+			updated_at: userEntity.updated_at,
+			deleted_at: userEntity.deleted_at,
+		};
+		return new UsersDomain(properties);
+	}
 }

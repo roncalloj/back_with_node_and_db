@@ -4,6 +4,7 @@ import DataBaseBootstrap from '../../server_and_db/db/db.bootstrap';
 import { UsersInsertResultApp } from '../application/users-insert.result';
 import {
 	UserOneResultApp,
+	UserWithPsswdApp,
 	UsersListResultApp,
 } from '../application/users.results';
 import { UsersDomain } from '../domain/users-domain';
@@ -14,6 +15,7 @@ import {
 	UserInsertException,
 	UserListException,
 	UserOneException,
+	UserUpdateException,
 } from './users.exceptions';
 
 export type UsersInsertResult = Result<
@@ -23,6 +25,7 @@ export type UsersInsertResult = Result<
 
 export type UserListResult = Result<UsersListResultApp[], UserListException>;
 export type UserOneResult = Result<UserOneResultApp, UserOneException>;
+export type UserWithPsswdResult = Result<UsersDomain, UserOneException>;
 
 export class UsersInfrastructure implements UsersRepository {
 	async insert(user: UsersDomain): Promise<UsersInsertResult> {
@@ -36,6 +39,7 @@ export class UsersInfrastructure implements UsersRepository {
 			return err(new UserInsertException(error.message));
 		}
 	}
+
 	async getAll(): Promise<UserListResult> {
 		try {
 			const repository =
@@ -59,6 +63,31 @@ export class UsersInfrastructure implements UsersRepository {
 			return ok(UsersModelDTO.fromDataToApplicationOne(users));
 		} catch (error) {
 			return err(new UserOneException(error.message));
+		}
+	}
+
+	async getOneWithPsswd(id: string): Promise<UserWithPsswdResult> {
+		try {
+			const repository =
+				DataBaseBootstrap.dataSource.getRepository(UsersEntity);
+			const users: UsersEntity = await repository.findOne({
+				where: { active: true, id },
+			});
+			return ok(UsersModelDTO.fromDataToDomain(users));
+		} catch (error) {
+			return err(new UserOneException(error.message));
+		}
+	}
+
+	async update(user: UsersDomain): Promise<UsersInsertResult> {
+		try {
+			const repository =
+				DataBaseBootstrap.dataSource.getRepository(UsersEntity);
+			const userEntity = UsersModelDTO.fromDomainToData(user);
+			const userUpdate = await repository.save(userEntity);
+			return ok(UsersModelDTO.fromDataToApplication(userUpdate));
+		} catch (error) {
+			return err(new UserUpdateException(error.message));
 		}
 	}
 }
