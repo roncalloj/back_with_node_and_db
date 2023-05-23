@@ -84,4 +84,12 @@ export class UsersApplication {
 		}
 		return ok(UsersInsertDTO.fromResponseToPresentation(userResult.value));
 	}
+	async delete(user: UsersDomain): Promise<UsersInsertResultApplication> {
+		user.delete();
+		const userResult = await this.repositoryUser.update(user);
+		if (userResult.isErr()) {
+			return err(userResult.error);
+		}
+		return ok(UsersInsertDTO.fromResponseToPresentation(userResult.value));
+	}
 }

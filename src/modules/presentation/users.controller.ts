@@ -3,6 +3,7 @@ import {
 	UsersApplication,
 	UsersInsertResultApplication,
 } from '../application/users.application';
+import { IDVO } from '../domain/domains.vo';
 import { RoleRepository } from '../domain/role.repository';
 import { UserUpdateProperties } from '../domain/users-domain';
 import { UsersFactory, UsersResult } from '../domain/users.factory';
@@ -30,6 +31,7 @@ class UserController {
 		this.getAll = this.getAll.bind(this);
 		this.getOne = this.getOne.bind(this);
 		this.update = this.update.bind(this);
+		this.delete = this.delete.bind(this);
 	}
 	async insert(request: Request, response: Response) {
 		console.log(request.body);
@@ -76,7 +78,15 @@ class UserController {
 
 	async getOne(request: Request, response: Response) {
 		const { idUser } = request.params;
-		const userResult = await usersApplication.getOne(idUser);
+		const idResult = IDVO.create(idUser);
+		if (idResult.isErr()) {
+			return response.status(idResult.error.status).json({
+				name: idResult.error.name,
+				message: idResult.error.message,
+			});
+		}
+
+		const userResult = await usersApplication.getOne(idResult.value.getValue());
 
 		if (userResult.isErr()) {
 			return response.status(userResult.error.starus).json({
@@ -89,10 +99,20 @@ class UserController {
 
 	async update(request: Request, response: Response) {
 		const { idUser } = request.params;
+		const idResult = IDVO.create(idUser);
+		if (idResult.isErr()) {
+			return response.status(idResult.error.status).json({
+				name: idResult.error.name,
+				message: idResult.error.message,
+			});
+		}
+
 		console.log(request.body);
 		const body: Partial<UserUpdateProperties> = request.body;
 
-		const userFound = await usersApplication.getOneWithPsswd(idUser);
+		const userFound = await usersApplication.getOneWithPsswd(
+			idResult.value.getValue()
+		);
 		if (userFound.isErr()) {
 			return response.status(userFound.error.status).json({
 				name: userFound.error.name,
@@ -112,6 +132,37 @@ class UserController {
 		}
 
 		response.status(201).json({ message: 'User updated' });
+	}
+
+	async delete(request: Request, response: Response) {
+		const { idUser } = request.params;
+		const idResult = IDVO.create(idUser);
+		if (idResult.isErr()) {
+			return response.status(idResult.error.status).json({
+				name: idResult.error.name,
+				message: idResult.error.message,
+			});
+		}
+
+		const userFound = await usersApplication.getOneWithPsswd(
+			idResult.value.getValue()
+		);
+		if (userFound.isErr()) {
+			return response.status(userFound.error.status).json({
+				name: userFound.error.name,
+				message: userFound.error.message,
+			});
+		}
+
+		const userDeleteResult = await usersApplication.delete(userFound.value);
+		if (userDeleteResult.isErr()) {
+			return response.status(userDeleteResult.error.status).json({
+				name: userDeleteResult.error.name,
+				message: userDeleteResult.error.message,
+			});
+		}
+
+		response.status(201).json({ message: 'User deleted' });
 	}
 }
 

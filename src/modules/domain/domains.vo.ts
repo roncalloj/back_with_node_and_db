@@ -1,8 +1,11 @@
 import { Result, err, ok } from 'neverthrow';
-import { InvalidEmailException } from './domains.exceptions';
+import { validate as uuidValidate } from 'uuid';
+import {
+	InvalidEmailException,
+	InvalidIDException,
+} from './domains.exceptions';
 
 export type EmailResult = Result<EmailVO, InvalidEmailException>;
-
 export class EmailVO {
 	private value: string;
 	static readonly patternEmail =
@@ -17,6 +20,26 @@ export class EmailVO {
 			return err(new InvalidEmailException(email));
 		}
 		return ok(new EmailVO(email));
+	}
+
+	getValue(): string {
+		return this.value;
+	}
+}
+
+export type IDResult = Result<IDVO, InvalidIDException>;
+export class IDVO {
+	private value: string;
+
+	private constructor(value: string) {
+		this.value = value;
+	}
+
+	static create(value: string): IDResult {
+		if (!uuidValidate(value)) {
+			return err(new InvalidIDException(value));
+		}
+		return ok(new IDVO(value));
 	}
 
 	getValue(): string {

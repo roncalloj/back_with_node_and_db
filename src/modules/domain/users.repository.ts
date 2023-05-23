@@ -11,5 +11,5 @@ export interface UsersRepository {
 	getAll(): Promise<UserListResult>;
 	getOne(id: string): Promise<UserOneResult>;
 	getOneWithPsswd(id: string): Promise<UserWithPsswdResult>;
-	update(user: UsersDomain): Promise<any>;
+	update(user: UsersDomain): Promise<UsersInsertResult>;
 }

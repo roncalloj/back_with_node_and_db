@@ -16,5 +16,6 @@ export class RouterUsers {
 		this.router.post('/signup', this.controller.insert);
 		this.router.get('/:idUser', this.controller.getOne);
 		this.router.put('/:idUser', this.controller.update);
+		this.router.delete('/:idUser', this.controller.delete);
 	}
 }

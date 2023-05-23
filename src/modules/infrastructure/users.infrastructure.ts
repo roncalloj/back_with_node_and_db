@@ -14,6 +14,7 @@ import { UsersModelDTO } from './users-model.dto';
 import {
 	UserInsertException,
 	UserListException,
+	UserNotFoundException,
 	UserOneException,
 	UserUpdateException,
 } from './users.exceptions';
@@ -22,9 +23,11 @@ export type UsersInsertResult = Result<
 	UsersInsertResultApp,
 	UserInsertException
 >;
-
 export type UserListResult = Result<UsersListResultApp[], UserListException>;
-export type UserOneResult = Result<UserOneResultApp, UserOneException>;
+export type UserOneResult = Result<
+	UserOneResultApp,
+	UserOneException | UserNotFoundException
+>;
 export type UserWithPsswdResult = Result<UsersDomain, UserOneException>;
 
 export class UsersInfrastructure implements UsersRepository {
@@ -60,6 +63,10 @@ export class UsersInfrastructure implements UsersRepository {
 			const users: UsersEntity = await repository.findOne({
 				where: { active: true, id },
 			});
+
+			if (!users) {
+				return err(new UserNotFoundException(id));
+			}
 			return ok(UsersModelDTO.fromDataToApplicationOne(users));
 		} catch (error) {
 			return err(new UserOneException(error.message));

@@ -25,12 +25,24 @@ export class UserListException extends Error {
 export class UserOneException extends Error {
 	starus: number = 500;
 	constructor(message: string) {
-		super(UserListException.getMessage(message));
+		super(UserOneException.getMessage(message));
 		this.name = 'UserOneException';
 	}
 
 	static getMessage(message: string) {
 		return `An error occurred while getting the user: ${message}`;
+	}
+}
+
+export class UserNotFoundException extends Error {
+	starus: number = 404;
+	constructor(message: string) {
+		super(UserNotFoundException.getMessage(message));
+		this.name = 'UserOneException';
+	}
+
+	static getMessage(message: string) {
+		return `User ID ${message} not found`;
 	}
 }
 
