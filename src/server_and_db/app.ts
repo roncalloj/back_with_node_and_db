@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express from 'express';
-import { RouterUsers } from '../modules/presentation/users.routes';
+import { RouterUsers } from '../modules/user/presentation/users.routes';
 
 const routerUsers: RouterUsers = new RouterUsers();
 

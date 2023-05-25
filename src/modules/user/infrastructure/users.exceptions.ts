@@ -42,7 +42,7 @@ export class UserNotFoundException extends Error {
 	}
 
 	static getMessage(message: string) {
-		return `User ID ${message} not found`;
+		return `User ID or email ${message} not found`;
 	}
 }
 

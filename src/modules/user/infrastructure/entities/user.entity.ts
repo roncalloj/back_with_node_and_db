@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
-import { BaseEntity } from '../../../core/base-entity';
+import { BaseEntity } from '../../../../core/base-entity';
 import { RoleEntity } from './role.entity';
 
 @Entity({ name: 'user' })
@@ -18,6 +18,9 @@ export class UsersEntity extends BaseEntity {
 
 	@Column('varchar', { length: 150 })
 	password: string;
+
+	@Column('varchar', { length: 100 })
+	refreshToken: string;
 
 	@Column('boolean')
 	active: boolean;

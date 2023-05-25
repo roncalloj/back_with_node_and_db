@@ -1,6 +1,7 @@
 import { Result, err, ok } from 'neverthrow';
 
-import DataBaseBootstrap from '../../server_and_db/db/db.bootstrap';
+import { AuthApplicationDTO } from 'src/modules/auth/application/auth.dto';
+import DataBaseBootstrap from '../../../server_and_db/db/db.bootstrap';
 import { UsersInsertResultApp } from '../application/users-insert.result';
 import {
 	UserOneResultApp,
@@ -29,6 +30,11 @@ export type UserOneResult = Result<
 >;
 export type UserWithPsswdResult = Result<
 	UsersDomain,
+	UserOneException | UserNotFoundException
+>;
+
+export type UserByEmailResult = Result<
+	AuthApplicationDTO,
 	UserOneException | UserNotFoundException
 >;
 
@@ -100,6 +106,22 @@ export class UsersInfrastructure implements UsersRepository {
 			return ok(UsersModelDTO.fromDataToApplication(userUpdate));
 		} catch (error) {
 			return err(new UserUpdateException(error.message));
+		}
+	}
+
+	async getUserByEmail(email: string): Promise<UserByEmailResult> {
+		try {
+			const repository =
+				DataBaseBootstrap.dataSource.getRepository(UsersEntity);
+			const users: UsersEntity = await repository.findOne({
+				where: { active: true, email },
+			});
+			if (!users) {
+				return err(new UserNotFoundException(email));
+			}
+			return ok(UsersModelDTO.fromDataToAuth(users));
+		} catch (error) {
+			return err(new UserOneException(error.message));
 		}
 	}
 }

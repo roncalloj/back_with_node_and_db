@@ -1,3 +1,4 @@
+import { AuthApplicationDTO } from 'src/modules/auth/application/auth.dto';
 import { UsersInsertResultApp } from '../application/users-insert.result';
 import {
 	UserOneResultApp,
@@ -21,6 +22,7 @@ export class UsersModelDTO {
 		userEntity.created_at = userProperties.created_at;
 		userEntity.updated_at = userProperties.updated_at;
 		userEntity.deleted_at = userProperties.deleted_at;
+		userEntity.refreshToken = userProperties.refreshToken;
 		return userEntity;
 	}
 
@@ -72,5 +74,16 @@ export class UsersModelDTO {
 			deleted_at: userEntity.deleted_at,
 		};
 		return new UsersDomain(properties);
+	}
+
+	static fromDataToAuth(userEntity: UsersEntity): AuthApplicationDTO {
+		return {
+			name: userEntity.name,
+			lastname: userEntity.lastname,
+			roles: userEntity.roles.map((role) => ({
+				id: role.id,
+				roleName: role.name,
+			})),
+		};
 	}
 }

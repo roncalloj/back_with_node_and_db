@@ -1,4 +1,5 @@
 import {
+	UserByEmailResult,
 	UserListResult,
 	UserOneResult,
 	UserWithPsswdResult,
@@ -12,4 +13,5 @@ export interface UsersRepository {
 	getOne(id: string): Promise<UserOneResult>;
 	getOneWithPsswd(id: string): Promise<UserWithPsswdResult>;
 	update(user: UsersDomain): Promise<UsersInsertResult>;
+	getUserByEmail(email: string): Promise<UserByEmailResult>;
 }

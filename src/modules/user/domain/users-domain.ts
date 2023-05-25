@@ -12,6 +12,7 @@ export interface UserOptionals {
 	readonly created_at: Date;
 	readonly updated_at: Date | null;
 	readonly deleted_at: Date | null;
+	readonly refreshToken: string;
 }
 
 export type UsersProperties = Required<UserEssentials> & Partial<UserOptionals>;
@@ -34,6 +35,7 @@ export class UsersDomain {
 	readonly created_at: Date;
 	updated_at: Date | null;
 	deleted_at: Date | null;
+	refreshToken: string;
 
 	constructor(properties: UsersProperties) {
 		this.active = true;
@@ -53,6 +55,7 @@ export class UsersDomain {
 			created_at: this.created_at,
 			updated_at: this.updated_at,
 			deleted_at: this.deleted_at,
+			refreshToken: this.refreshToken,
 		};
 	}
 
