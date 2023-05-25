@@ -11,7 +11,7 @@ export class UserInsertException extends Error {
 }
 
 export class UserListException extends Error {
-	starus: number = 500;
+	status: number = 500;
 	constructor(message: string) {
 		super(UserListException.getMessage(message));
 		this.name = 'UserListException';
@@ -23,7 +23,7 @@ export class UserListException extends Error {
 }
 
 export class UserOneException extends Error {
-	starus: number = 500;
+	status: number = 500;
 	constructor(message: string) {
 		super(UserOneException.getMessage(message));
 		this.name = 'UserOneException';
@@ -35,10 +35,10 @@ export class UserOneException extends Error {
 }
 
 export class UserNotFoundException extends Error {
-	starus: number = 404;
+	status: number = 404;
 	constructor(message: string) {
 		super(UserNotFoundException.getMessage(message));
-		this.name = 'UserOneException';
+		this.name = 'UserNotFoundException';
 	}
 
 	static getMessage(message: string) {

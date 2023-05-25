@@ -4,7 +4,6 @@ import DataBaseBootstrap from '../../server_and_db/db/db.bootstrap';
 import { UsersInsertResultApp } from '../application/users-insert.result';
 import {
 	UserOneResultApp,
-	UserWithPsswdApp,
 	UsersListResultApp,
 } from '../application/users.results';
 import { UsersDomain } from '../domain/users-domain';
@@ -28,7 +27,10 @@ export type UserOneResult = Result<
 	UserOneResultApp,
 	UserOneException | UserNotFoundException
 >;
-export type UserWithPsswdResult = Result<UsersDomain, UserOneException>;
+export type UserWithPsswdResult = Result<
+	UsersDomain,
+	UserOneException | UserNotFoundException
+>;
 
 export class UsersInfrastructure implements UsersRepository {
 	async insert(user: UsersDomain): Promise<UsersInsertResult> {
@@ -80,6 +82,9 @@ export class UsersInfrastructure implements UsersRepository {
 			const users: UsersEntity = await repository.findOne({
 				where: { active: true, id },
 			});
+			if (!users) {
+				return err(new UserNotFoundException(id));
+			}
 			return ok(UsersModelDTO.fromDataToDomain(users));
 		} catch (error) {
 			return err(new UserOneException(error.message));

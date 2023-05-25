@@ -12,7 +12,3 @@ export class UserOneResultApp {
 	readonly email: string;
 	readonly roles: UserRoleResult;
 }
-
-export class UserWithPsswdApp extends UserOneResultApp {
-	readonly password: string;
-}

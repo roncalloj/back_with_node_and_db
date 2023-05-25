@@ -68,7 +68,7 @@ class UserController {
 		const userResult = await usersApplication.getAll();
 
 		if (userResult.isErr()) {
-			return response.status(userResult.error.starus).json({
+			return response.status(userResult.error.status).json({
 				name: userResult.error.name,
 				message: userResult.error.message,
 			});
@@ -89,7 +89,7 @@ class UserController {
 		const userResult = await usersApplication.getOne(idResult.value.getValue());
 
 		if (userResult.isErr()) {
-			return response.status(userResult.error.starus).json({
+			return response.status(userResult.error.status).json({
 				name: userResult.error.name,
 				message: userResult.error.message,
 			});

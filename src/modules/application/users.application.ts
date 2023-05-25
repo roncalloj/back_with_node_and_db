@@ -4,11 +4,7 @@ import { UserUpdateProperties, UsersDomain } from '../domain/users-domain';
 import { UsersRepository } from '../domain/users.repository';
 import { PasswordCipherService } from './psswd_cipher.service';
 import { UsersInsertDTO } from './users-insert.dto';
-import {
-	UserOneResultApp,
-	UserWithPsswdApp,
-	UsersListResultApp,
-} from './users.results';
+import { UserOneResultApp, UsersListResultApp } from './users.results';
 
 export type UsersInsertResultApplication = Result<UsersInsertDTO, any>;
 export type UsersListResultApplication = Result<UsersListResultApp[], any>;

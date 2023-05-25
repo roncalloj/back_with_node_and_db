@@ -1,5 +1,5 @@
 export class RoleListException extends Error {
-	starus: number = 500;
+	status: number = 500;
 	constructor(message: string) {
 		super(RoleListException.getMessage(message));
 		this.name = 'RoleListException';
