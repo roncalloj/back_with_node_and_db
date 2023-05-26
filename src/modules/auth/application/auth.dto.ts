@@ -5,4 +5,5 @@ export class AuthApplicationDTO {
 	lastname: string;
 	roles: AuthRoles[];
 	password: string;
+	refreshToken: string;
 }

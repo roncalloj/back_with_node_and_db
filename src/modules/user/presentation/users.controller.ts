@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import { RoleInfrastructure } from '../../infrastructure/role.infrastructure';
-import { UsersInfrastructure } from '../../infrastructure/users.infrastructure';
 import {
 	UsersApplication,
 	UsersInsertResultApplication,
@@ -10,6 +8,8 @@ import { RoleRepository } from '../domain/role.repository';
 import { UserUpdateProperties } from '../domain/users-domain';
 import { UsersFactory, UsersResult } from '../domain/users.factory';
 import { UsersRepository } from '../domain/users.repository';
+import { RoleInfrastructure } from '../infrastructure/role.infrastructure';
+import { UsersInfrastructure } from '../infrastructure/users.infrastructure';
 
 const usersInfrastructure: UsersRepository = new UsersInfrastructure();
 const roleInfrastructure: RoleRepository = new RoleInfrastructure();

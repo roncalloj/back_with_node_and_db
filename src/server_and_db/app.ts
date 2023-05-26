@@ -1,8 +1,10 @@
 import cors from 'cors';
 import express from 'express';
+import { RouterAuth } from '../modules/auth/presentation/auth.routes';
 import { RouterUsers } from '../modules/user/presentation/users.routes';
 
 const routerUsers: RouterUsers = new RouterUsers();
+const routerAuth: RouterAuth = new RouterAuth();
 
 class App {
 	app: express.Application;
@@ -20,14 +22,7 @@ class App {
 
 	mountRoutes(): void {
 		this.app.use('/user', routerUsers.router);
-
-		this.app.get('/products', (request, response) => {
-			const product = [
-				{ name: 'A', price: 10 },
-				{ name: 'B', price: 20 },
-			];
-			response.json(product);
-		});
+		this.app.use('/auth', routerAuth.router);
 	}
 }
 
