@@ -84,6 +84,7 @@ export class UsersModelDTO {
 				id: role.id,
 				roleName: role.name,
 			})),
+			password: userEntity.password,
 		};
 	}
 }
