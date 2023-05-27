@@ -2,11 +2,23 @@ export class AuthUserNotFoundException extends Error {
 	status: number = 500;
 	constructor(message: string) {
 		super(AuthUserNotFoundException.getMessage(message));
-		this.name = 'UserInsertException';
+		this.name = 'AuthUserNotFoundException';
 	}
 
 	static getMessage(message: string) {
 		return `User not found: ${message}`;
+	}
+}
+
+export class AuthUserNotFoundByRefreshTokenException extends Error {
+	status: number = 500;
+	constructor() {
+		super(AuthUserNotFoundByRefreshTokenException.getMessage());
+		this.name = 'AuthUserNotFoundByRefreshTokenException';
+	}
+
+	static getMessage() {
+		return 'User not found';
 	}
 }
 

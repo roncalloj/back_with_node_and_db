@@ -13,5 +13,6 @@ export class RouterAuth {
 
 	mountRoutes(): void {
 		this.router.post('/login', this.controller.login);
+		this.router.post('/refresh', this.controller.getNewAccToken);
 	}
 }

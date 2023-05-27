@@ -46,6 +46,18 @@ export class UserNotFoundException extends Error {
 	}
 }
 
+export class UserNotFoundByRefreshTokenException extends Error {
+	status: number = 404;
+	constructor() {
+		super(UserNotFoundByRefreshTokenException.getMessage());
+		this.name = 'UserNotFoundByRefreshTokenException';
+	}
+
+	static getMessage() {
+		return `User not found`;
+	}
+}
+
 export class UserUpdateException extends Error {
 	status: number = 500;
 	constructor(message: string) {

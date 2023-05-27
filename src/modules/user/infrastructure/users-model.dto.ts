@@ -1,9 +1,6 @@
 import { AuthApplicationDTO } from 'src/modules/auth/application/auth.dto';
 import { UsersInsertResultApp } from '../application/users-insert.result';
-import {
-	UserOneResultApp,
-	UsersListResultApp,
-} from '../application/users.results';
+import { UserOneResultApp, UsersListResultApp } from '../application/users.results';
 import { UsersDomain, UsersProperties } from '../domain/users-domain';
 import { RoleEntity } from './entities/role.entity';
 import { UsersEntity } from './entities/user.entity';
@@ -35,9 +32,7 @@ export class UsersModelDTO {
 		};
 	}
 
-	static fromDataToApplicationList(
-		userEntities: UsersEntity[]
-	): UsersListResultApp[] {
+	static fromDataToApplicationList(userEntities: UsersEntity[]): UsersListResultApp[] {
 		return userEntities.map((users) => {
 			return {
 				id: users.id,
@@ -78,6 +73,7 @@ export class UsersModelDTO {
 
 	static fromDataToAuth(userEntity: UsersEntity): AuthApplicationDTO {
 		return {
+			id: userEntity.id,
 			name: userEntity.name,
 			lastname: userEntity.lastname,
 			roles: userEntity.roles.map((role) => ({

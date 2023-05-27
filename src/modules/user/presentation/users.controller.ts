@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
-import {
-	UsersApplication,
-	UsersInsertResultApplication,
-} from '../application/users.application';
+import { UsersApplication, UsersInsertResultApplication } from '../application/users.application';
 import { IDVO } from '../domain/domains.vo';
 import { RoleRepository } from '../domain/role.repository';
 import { UserUpdateProperties } from '../domain/users-domain';
@@ -13,10 +10,7 @@ import { UsersInfrastructure } from '../infrastructure/users.infrastructure';
 
 const usersInfrastructure: UsersRepository = new UsersInfrastructure();
 const roleInfrastructure: RoleRepository = new RoleInfrastructure();
-const usersApplication: UsersApplication = new UsersApplication(
-	usersInfrastructure,
-	roleInfrastructure
-);
+const usersApplication: UsersApplication = new UsersApplication(usersInfrastructure, roleInfrastructure);
 
 class UserController {
 	mockUsers() {
@@ -36,13 +30,7 @@ class UserController {
 	async insert(request: Request, response: Response) {
 		console.log(request.body);
 		const { name, lastname, email, password, roles } = request.body;
-		const userResult: UsersResult = UsersFactory.create(
-			name,
-			lastname,
-			email,
-			password,
-			roles
-		);
+		const userResult: UsersResult = UsersFactory.create(name, lastname, email, password, roles);
 
 		if (userResult.isErr()) {
 			return response.status(400).json({
@@ -51,8 +39,7 @@ class UserController {
 			});
 		}
 
-		const userInsertResult: UsersInsertResultApplication =
-			await usersApplication.insert(userResult.value);
+		const userInsertResult: UsersInsertResultApplication = await usersApplication.insert(userResult.value);
 
 		if (userInsertResult.isErr()) {
 			return response.status(userInsertResult.error.status).json({
@@ -110,9 +97,7 @@ class UserController {
 		console.log(request.body);
 		const body: Partial<UserUpdateProperties> = request.body;
 
-		const userFound = await usersApplication.getOneWithPsswd(
-			idResult.value.getValue()
-		);
+		const userFound = await usersApplication.getOneWithPsswd(idResult.value.getValue());
 		if (userFound.isErr()) {
 			return response.status(userFound.error.status).json({
 				name: userFound.error.name,
@@ -120,10 +105,7 @@ class UserController {
 			});
 		}
 
-		const userUpdateResult = await usersApplication.update(
-			userFound.value,
-			body
-		);
+		const userUpdateResult = await usersApplication.update(userFound.value, body);
 		if (userUpdateResult.isErr()) {
 			return response.status(userUpdateResult.error.status).json({
 				name: userUpdateResult.error.name,
@@ -144,9 +126,7 @@ class UserController {
 			});
 		}
 
-		const userFound = await usersApplication.getOneWithPsswd(
-			idResult.value.getValue()
-		);
+		const userFound = await usersApplication.getOneWithPsswd(idResult.value.getValue());
 		if (userFound.isErr()) {
 			return response.status(userFound.error.status).json({
 				name: userFound.error.name,

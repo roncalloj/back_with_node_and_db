@@ -8,8 +8,7 @@ export class TokenService {
 	static tokenValidation(token: string): TOKEN_STATUS {
 		try {
 			const payload = jwt.decode(token, env.JWT_KEY);
-			console.log(payload.exp, Date.now());
-			if (Date.now() / 1000 > payload.exp) {
+			if (Date.now() > payload.exp) {
 				return { status: 403, message: TokenStatus.TOKEN_EXPIRED };
 			}
 			return { status: 200, message: TokenStatus.TOKEN_VALID };

@@ -1,5 +1,6 @@
 import {
 	UserByEmailResult,
+	UserByRefreshTokenResult,
 	UserListResult,
 	UserOneResult,
 	UserWithPsswdResult,
@@ -14,4 +15,5 @@ export interface UsersRepository {
 	getOneWithPsswd(id: string): Promise<UserWithPsswdResult>;
 	update(user: UsersDomain): Promise<UsersInsertResult>;
 	getUserByEmail(email: string): Promise<UserByEmailResult>;
+	getUserByRefreshToken(refreshToken: string): Promise<UserByRefreshTokenResult>;
 }

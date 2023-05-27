@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UsersRepository } from '../../user/domain/users.repository';
 import { UsersInfrastructure } from '../../user/infrastructure/users.infrastructure';
 import { AuthApplication } from '../application/auth.application';
@@ -21,6 +21,18 @@ class AuthController {
 			});
 		}
 		response.json(loginResult.value);
+	}
+
+	async getNewAccToken(request: Request, response: Response, next: NextFunction) {
+		const { refreshToken } = request.body;
+		const newAccTokenResult = await authApplication.getNewAccToken(refreshToken);
+		if (newAccTokenResult.isErr()) {
+			return response.status(newAccTokenResult.error.status).json({
+				name: newAccTokenResult.error.name,
+				messagge: newAccTokenResult.error.message,
+			});
+		}
+		return response.json(newAccTokenResult.value);
 	}
 }
 
